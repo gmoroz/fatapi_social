@@ -1,0 +1,12 @@
+.gitignore
+.venv/
+__pycache__/
+.git
+.mypy_cache/
+.ruff_cache/
+.env
+/tests
+translate_excel.py
+.pre-commit-config.yaml
+*.lock
+*.png
