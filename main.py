@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from app.core.config import env
+from app.core.endpoints import user
 
 
 def get_application():
@@ -20,3 +22,5 @@ def get_application():
 
 
 app = get_application()
+
+app.include_router(user.user_router)

@@ -1,20 +1,18 @@
 from pydantic import BaseModel, EmailStr
 
 
+class TunedModel(BaseModel):
+    class Config:
+        orm_mode = True
+
+
 class UserBase(BaseModel):
     username: str
     email: EmailStr
 
 
-class UserCreate(UserBase):
+class UserCreate(UserBase, TunedModel):
     password: str
-
-
-class User(UserBase):
-    id: int
-
-    class Config:
-        orm_mode = True
 
 
 class PostBase(BaseModel):
@@ -26,9 +24,11 @@ class PostCreate(PostBase):
     pass
 
 
-class Post(PostBase):
+class Post(PostBase, TunedModel):
     id: int
     owner_id: int
 
-    class Config:
-        orm_mode = True
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str

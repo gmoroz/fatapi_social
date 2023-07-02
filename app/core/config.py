@@ -1,6 +1,7 @@
 import os
 from ast import literal_eval
 from dataclasses import dataclass
+
 from dotenv import load_dotenv
 
 
@@ -26,6 +27,8 @@ class Env:
     database: DatabaseConfig
     redis: RedisConfig
     backend_cors_origins: list[str]
+    secret_key: str
+    access_token_expire_minutes: int
 
     @property
     def database_url(self) -> str:
@@ -48,10 +51,15 @@ def load_config():
 
     backend_cors_origins = literal_eval(os.getenv("BACKEND_CORS_ORIGINS", "['*']"))
 
+    secret_key = os.getenv("SECRET_KEY")
+    access_token_expire_minutes = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
+
     return Env(
         database=database_config,
         redis=redis_config,
         backend_cors_origins=backend_cors_origins,
+        secret_key=secret_key,
+        access_token_expire_minutes=access_token_expire_minutes,
     )
 
 
