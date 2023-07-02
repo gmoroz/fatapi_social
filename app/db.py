@@ -1,12 +1,13 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
+from redis.asyncio import Redis
+from app.core.config import env
 
-from app.core.config import DATABASE_URL
-
-engine = create_async_engine(DATABASE_URL, echo=True)
+engine = create_async_engine(env.database_url, echo=True)
 Base = declarative_base()
 async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+redis_db = Redis(env.redis.host)
 
 
 async def init_models():
@@ -15,7 +16,6 @@ async def init_models():
         await conn.run_sync(Base.metadata.create_all)
 
 
-# Dependency
 async def get_session() -> AsyncSession:
     async with async_session() as session:
         yield session
