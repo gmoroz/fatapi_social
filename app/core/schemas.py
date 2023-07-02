@@ -20,11 +20,7 @@ class PostBase(BaseModel):
     content: str
 
 
-class PostCreate(PostBase):
-    pass
-
-
-class Post(PostBase, TunedModel):
+class PostCreate(PostBase, TunedModel):
     id: int
     owner_id: int
 

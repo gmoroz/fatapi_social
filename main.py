@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import env
-from app.core.endpoints import user
+from app.core.endpoints import post, user
 
 
 def get_application():
@@ -24,3 +24,4 @@ def get_application():
 app = get_application()
 
 app.include_router(user.user_router)
+app.include_router(post.post_router)
