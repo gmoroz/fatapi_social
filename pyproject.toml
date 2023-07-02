@@ -10,6 +10,7 @@ packages = [{include = "fatapi_social"}]
 python = "^3.11"
 fastapi = "^0.99.0"
 uvicorn = "^0.22.0"
+sqlalchemy = "^2.0.17"
 
 
 [tool.poetry.group.dev.dependencies]
