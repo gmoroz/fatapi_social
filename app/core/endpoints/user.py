@@ -10,7 +10,7 @@ from sqlalchemy.future import select
 
 from app.core.config import env
 from app.core.constants import ALGORITHM
-from app.core.dependencies import get_current_user, get_session
+from app.core.dependencies import get_session, get_username_from_token, oauth2_scheme
 from app.core.models import User
 from app.core.schemas import Token, UserCreate
 
@@ -86,10 +86,11 @@ async def login_for_access_token(
 
 @user_router.post("/refresh-token")
 async def refresh_token(
-    current_user: User = Depends(get_current_user),
+    token: str = Depends(oauth2_scheme),
 ):
+    username = get_username_from_token(token)
     new_token = create_access_token(
-        data={"sub": current_user.username},
+        data={"sub": username},
         expires_delta=timedelta(minutes=env.access_token_expire_minutes),
     )
     return {"access_token": new_token, "token_type": "bearer"}
