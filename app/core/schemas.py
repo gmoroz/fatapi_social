@@ -25,6 +25,11 @@ class PostCreate(PostBase, TunedModel):
     owner_id: int
 
 
+class PostResponse(PostCreate):
+    likes: int
+    dislikes: int
+
+
 class Token(BaseModel):
     access_token: str
     token_type: str
