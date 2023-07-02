@@ -1,4 +1,5 @@
 import os
+from ast import literal_eval
 from dataclasses import dataclass
 from dotenv import load_dotenv
 
@@ -26,6 +27,7 @@ class RedisConfig:
 class Env:
     database: DatabaseConfig
     redis: RedisConfig
+    backend_cors_origins: list[str]
 
     @property
     def database_url(self) -> str:
@@ -46,7 +48,13 @@ def load_config():
         host=os.getenv("REDIS_HOST"),
     )
 
-    return Env(database=database_config, redis=redis_config)
+    backend_cors_origins = literal_eval(os.getenv("BACKEND_CORS_ORIGINS", "['*']"))
+
+    return Env(
+        database=database_config,
+        redis=redis_config,
+        backend_cors_origins=backend_cors_origins,
+    )
 
 
 env = load_config()
