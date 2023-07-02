@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "fatapi-social"
+version = "0.1.0"
+description = ""
+authors = ["gmoroz <12345hasek@gmail.com>"]
+readme = "README.md"
+packages = [{include = "fatapi_social"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.99.0"
+uvicorn = "^0.22.0"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.4.1"
+pre-commit = "^3.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
