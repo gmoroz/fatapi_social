@@ -32,4 +32,4 @@ root url приложения: `localhost:8000`
 
 Схема базы данных:
 
-![Схема бд](https://github.com/gmoroz/fastapi_social/blob/master/readme_files/db_diagram.png)
+![Схема бд](https://i.ibb.co/wR7nWn5/db-diagram.png)
