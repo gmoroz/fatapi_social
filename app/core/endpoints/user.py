@@ -45,7 +45,7 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 
-@user_router.post("/register/")
+@user_router.post("/register")
 async def register_user(user: UserCreate, db: AsyncSession = Depends(get_session)):
     db_user = User(
         username=user.username,
@@ -58,7 +58,7 @@ async def register_user(user: UserCreate, db: AsyncSession = Depends(get_session
     return {"message": "You are successfully registered"}
 
 
-@user_router.post("/login/", response_model=Token)
+@user_router.post("/login", response_model=Token)
 async def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: AsyncSession = Depends(get_session),
@@ -77,7 +77,7 @@ async def login_for_access_token(
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@user_router.post("/refresh-token/")
+@user_router.post("/refresh-token")
 async def refresh_token(
     current_user: User = Depends(get_current_user),
 ):
