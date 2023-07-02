@@ -13,9 +13,7 @@ class DatabaseConfig:
 
     @property
     def url(self) -> str:
-        return (
-            f"postgresql+asyncpg://{self.user}:{self.password}@{self.server}/{self.db}"
-        )
+        return f"postgresql+asyncpg://{self.user}:{self.password}@{self.server}:5432/{self.db}"
 
 
 @dataclass
