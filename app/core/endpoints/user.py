@@ -4,6 +4,7 @@ import jwt
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from passlib.context import CryptContext
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
@@ -47,15 +48,21 @@ def get_password_hash(password):
 
 @user_router.post("/register")
 async def register_user(user: UserCreate, db: AsyncSession = Depends(get_session)):
-    db_user = User(
-        username=user.username,
-        email=user.email,
-        password=get_password_hash(user.password),
-    )
-    db.add(db_user)
-    await db.commit()
-    await db.refresh(db_user)
-    return {"message": "You are successfully registered"}
+    try:
+        db_user = User(
+            username=user.username,
+            email=user.email,
+            password=get_password_hash(user.password),
+        )
+        db.add(db_user)
+        await db.commit()
+        await db.refresh(db_user)
+        return {"message": "You are successfully registered"}
+    except IntegrityError:
+        raise HTTPException(
+            status_code=409,
+            detail="Username or email already exists",
+        )
 
 
 @user_router.post("/login", response_model=Token)
